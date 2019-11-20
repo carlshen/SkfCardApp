@@ -1,9 +1,7 @@
 package com.tongxin.skfcard;
 
-import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,11 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.jeremyliao.liveeventbus.LiveEventBus;
-import com.tongxin.cardemulation.SkfInterface;
-
 /**
- * Created by call on 2019/11/20.
+ * Created by carl on 2019/11/20.
  */
 
 public class CardLogFragment extends Fragment {
@@ -42,14 +37,6 @@ public class CardLogFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        LiveEventBus.get()
-                .with(SkfInterface.KEY_TEST_OBSERVE, String.class)
-                .observe(this, new Observer<String>() {
-                    @Override
-                    public void onChanged(@Nullable String s) {
-                        logText(s);
-                    }
-                });
     }
 
     private static String bytesToString(byte[] bytes) {

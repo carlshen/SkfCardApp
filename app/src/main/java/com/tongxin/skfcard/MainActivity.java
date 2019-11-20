@@ -17,8 +17,8 @@
 package com.tongxin.skfcard;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,11 +28,10 @@ import android.widget.TextView;
 import com.tongxin.cardemulation.SkfInterface;
 
 /**
- * Created by call on 2019/11/20.
+ * Created by carl on 2019/11/20.
  */
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends AppCompatActivity {
 
-    public static final String TAG = "MainActivity";
     private boolean mLogShown = false;
     private Button mButtonEnum = null;
     private Button mButtonConnect = null;
