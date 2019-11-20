@@ -1,0 +1,58 @@
+<LinearLayout
+      xmlns:android="http://schemas.android.com/apk/res/android"
+      android:orientation="vertical"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:id="@+id/sample_main_layout">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+        <Button
+            android:id="@+id/btn_device"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/btn_enum_device" />
+        <Button
+            android:id="@+id/btn_connect"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/btn_connect_device" />
+        <Button
+            android:id="@+id/btn_info"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/btn_info_device" />
+        <Button
+            android:id="@+id/btn_disconnect"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/btn_disconnect_device" />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/tv_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:hint="result"
+        android:textSize="20sp"
+        android:text=""/>
+
+    <View
+          android:layout_width="match_parent"
+          android:layout_height="1dp"
+          android:background="@android:color/darker_gray" />
+
+    <FrameLayout
+          android:id="@+id/sample_content_fragment"
+          android:layout_weight="2"
+          android:layout_width="match_parent"
+          android:layout_height="0px" />
+
+</LinearLayout>
+

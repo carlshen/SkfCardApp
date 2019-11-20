@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">SKFCardApp</string>
+    <string name="sample_show_log">Show Log</string>
+    <string name="sample_hide_log">Hide Log</string>
+    <string name="hint_apdu">apdu</string>
+    <string name="btn_select_apdu">SelectApdu</string>
+    <string name="btn_command_apdu">CommandApdu</string>
+    <string name="btn_enum_device">EnumDevice</string>
+    <string name="btn_connect_device">ConnectDevice</string>
+    <string name="btn_info_device">DeviceInfo</string>
+    <string name="btn_disconnect_device">Disconnect</string>
+</resources>
