@@ -5,8 +5,9 @@
     <string name="hint_apdu">apdu</string>
     <string name="btn_select_apdu">SelectApdu</string>
     <string name="btn_command_apdu">CommandApdu</string>
+    <string name="btn_exist_device">SkfExist</string>
     <string name="btn_enum_device">EnumDevice</string>
-    <string name="btn_connect_device">ConnectDevice</string>
+    <string name="btn_connect_device">Connect</string>
     <string name="btn_info_device">DeviceInfo</string>
     <string name="btn_disconnect_device">Disconnect</string>
 </resources>

@@ -39,6 +39,7 @@ import com.tongxin.cardemulation.SkfInterface;
 public class MainActivity extends AppCompatActivity {
 
     private boolean mLogShown = false;
+    private Button mButtonExist = null;
     private Button mButtonEnum = null;
     private Button mButtonConnect = null;
     private Button mButtonInfo = null;
@@ -56,6 +57,13 @@ public class MainActivity extends AppCompatActivity {
         transaction.add(R.id.sample_content_fragment, fragment, "log");
         transaction.commit();
         tvResult = (TextView) findViewById(R.id.tv_result);
+        mButtonExist = (Button) findViewById(R.id.btn_exist);
+        mButtonExist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tvResult.setText("Skf Device: " + SkfInterface.getSkfInstance().SKF_Exist(getApplicationContext()));
+            }
+        });
         mButtonEnum = (Button) findViewById(R.id.btn_device);
         mButtonEnum.setOnClickListener(new View.OnClickListener() {
             @Override
