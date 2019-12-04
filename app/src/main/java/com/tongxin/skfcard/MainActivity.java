@@ -25,19 +25,25 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.tongxin.cardemulation.SkfCallback;
 import com.tongxin.cardemulation.SkfInterface;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by carl on 2019/11/20.
  */
 public class MainActivity extends AppCompatActivity {
 
+    public static final String TAG = "MainActivity";
     private boolean mLogShown = false;
     private Button mButtonExist = null;
     private Button mButtonEnum = null;
@@ -46,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
     private Button mButtonDisconnect = null;
     private TextView tvResult = null;
     private String deviceName = null;
+    private String deviceData = null;
+    private SkfCallback Callback = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,8 +76,7 @@ public class MainActivity extends AppCompatActivity {
         mButtonEnum.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deviceName = SkfInterface.getSkfInstance().SKF_EnumDev(getApplicationContext());
-                tvResult.setText("Device: " + deviceName);
+                SkfInterface.getSkfInstance().SKF_EnumDev(getApplicationContext());
             }
         });
         mButtonConnect = (Button) findViewById(R.id.btn_connect);
@@ -77,15 +84,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 boolean result = SkfInterface.getSkfInstance().SKF_ConnectDev(deviceName);
-                tvResult.setText("ConnectDev: " + result);
             }
         });
         mButtonInfo = (Button) findViewById(R.id.btn_info);
         mButtonInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String result = SkfInterface.getSkfInstance().SKF_GetDevInfo(deviceName);
-                tvResult.setText("DevInfo: " + result);
+                boolean result = SkfInterface.getSkfInstance().SKF_GetDevInfo(deviceName);
+//                tvResult.setText("DevInfo: " + result);
             }
         });
         mButtonDisconnect = (Button) findViewById(R.id.btn_disconnect);
@@ -93,9 +99,85 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 boolean result = SkfInterface.getSkfInstance().SKF_DisconnectDev(deviceName);
-                tvResult.setText("DisconnectDev: " + result);
+//                tvResult.setText("DisconnectDev: " + result);
             }
         });
+        Callback = new SkfCallback() {
+            @Override
+            public void onEnumDev(String result) {
+                deviceName = result;
+                try {
+                    JSONObject json = new JSONObject(result);
+                    if (json != null) {
+                        int code = json.optInt("code");
+                        String tip = json.optString("tips");
+                        deviceName = json.optString("data");
+                        Log.i(TAG, "onEnumDev code = " + code);
+                        Log.i(TAG, "onEnumDev tip = " + tip);
+                        Log.i(TAG, "onEnumDev data = " + deviceName);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                tvResult.setText("Device: " + deviceName);
+            }
+
+            @Override
+            public void onConnectDev(String result) {
+                try {
+                    JSONObject json = new JSONObject(result);
+                    if (json != null) {
+                        int code = json.optInt("code");
+                        String tip = json.optString("tips");
+                        deviceData = json.optString("data");
+                        Log.i(TAG, "onConnectDev code = " + code);
+                        Log.i(TAG, "onConnectDev tip = " + tip);
+                        Log.i(TAG, "onGetDevInfo data = " + deviceData);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                tvResult.setText("Device: " + deviceData);
+            }
+
+            @Override
+            public void onDisconnectDev(String result) {
+                try {
+                    JSONObject json = new JSONObject(result);
+                    if (json != null) {
+                        int code = json.optInt("code");
+                        String tip = json.optString("tips");
+                        deviceData = json.optString("data");
+                        Log.i(TAG, "onConnectDev code = " + code);
+                        Log.i(TAG, "onConnectDev tip = " + tip);
+                        Log.i(TAG, "onGetDevInfo data = " + deviceData);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                tvResult.setText("Device: " + deviceData);
+            }
+
+            @Override
+            public void onGetDevInfo(String result) {
+                try {
+                    JSONObject json = new JSONObject(result);
+                    if (json != null) {
+                        int code = json.optInt("code");
+                        String tip = json.optString("tips");
+                        deviceData = json.optString("data");
+                        Log.i(TAG, "onConnectDev code = " + code);
+                        Log.i(TAG, "onConnectDev tip = " + tip);
+                        Log.i(TAG, "onGetDevInfo data = " + deviceData);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                tvResult.setText("Device: " + deviceData);
+            }
+        };
+        SkfInterface.getSkfInstance().SKF_SetCallback(Callback);
+        SkfInterface.getSkfInstance().setDebugFlag(true);
     }
 
     @Override

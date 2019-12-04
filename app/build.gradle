@@ -28,5 +28,5 @@ repositories {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:26.1.0'
-    compile (name:'CardEmulation-1.0.1', ext:'aar')
+    compile (name:'CardEmulation-1.0.2', ext:'aar')
 }
