@@ -10,74 +10,101 @@ Next is the develop environment:
 
 3 Android sdk 26;(ndk not used);
 
-4 Current SDK supportted 14 interfaces, which use asynchronous callback:
+4 Current SDK supportted 15 interfaces, which use asynchronous callback:
   
   Please use SkfInterface.getSkfInstance().SKF_SetCallback() to set the SkfCallback before you call any function, otherwise you can't get any feedback;  
 
   1) SkfInterface.getSkfInstance().SKF_EnumDev(getApplicationContext()); // enum device and init environment, return "device" for connection;
   
      Callback function is onEnumDev(String result);
+
+	 return Json format string, code: 0 is ok, data: "xxxxxxx" is the device; other value is failure；
   
   2) SkfInterface.getSkfInstance().SKF_ConnectDev("device"); // Connect Device by parameter "device";
   
      Callback function is onConnectDev(String result);
+
+	 return Json format string, code: 0 is ok; other value is failure；
   
   3) SkfInterface.getSkfInstance().SKF_GetDevInfo("device"); // Get Device Info by parameter "device";
   
-     Callback function is onGetDevInfo(String result); return device info data;
+     Callback function is onGetDevInfo(String result);
+
+	 return Json format string, code: 0 is ok, data: "xxxxxxx" is the device info data; other value is failure；
   
   4) SkfInterface.getSkfInstance().SKF_DisconnectDev("device"); // Disconnect Device by parameter "device";
 
      Callback function is onDisconnectDev(String result);
 
+	 return Json format string, code: 0 is ok; other value is failure；
+
   5）SkfInterface.getSkfInstance().SKF_CreateApplication("device")； // no need called, as default created;
 
      Callback function is onCreateApplication(String result);
+
+	 return Json format string, code: 0 is ok; other value is failure；
 
   6）SkfInterface.getSkfInstance().SKF_OpenApplication("device")； // no need called, as default opened;
 
      Callback function is onOpenApplication(String result);
 
+	 return Json format string, code: 0 is ok; other value is failure；
+
   7）SkfInterface.getSkfInstance().SKF_CreateContainer("device")； // no need called, as default created;
 
      Callback function is onCreateContainer(String result);
+
+	 return Json format string, code: 0 is ok; other value is failure；
 
   8）SkfInterface.getSkfInstance().SKF_SetSymmKey(String device, String key, int AlgID)； // set encrypt key and algorithm;
 
      input device parameter "device", encrypt key parameter "key"(128bit, or 16 bytes string), algorithm parameter "AlgID"(1025 is ECB algorithm， 1026 is CBC algorithm, others not supported);
 
      Callback function is onSetSymmKey(String result);
-	 return Json format string, ode: 0 is ok, data: "xxxxxxx" is the key handle, which be used in following steps；
+	 
+	 return Json format string, code: 0 is ok, data: "xxxxxxx" is the key handle, which be used in following steps；other value is failure；
+	 
+  9）SkfInterface.getSkfInstance().SKF_CheckSymmKey(String device)； // check the key set status;
 
-  9）SkfInterface.getSkfInstance().SKF_EncryptInit(String key)；       // encrypt init
+     input device parameter "device";
+
+     Callback function is onCheckSymmKey(String result);
+
+	 return Json format string, code: 0 is ok, the cipher key is set; other value is failure, the key is not set yet;
+
+ 10）SkfInterface.getSkfInstance().SKF_EncryptInit(String key)；       // encrypt init
 
      input encrypt key parameter "key"(128bit, or 16 bytes string);
 
      Callback function is onEncryptInit(String result);
 
- 10）SkfInterface.getSkfInstance().SKF_Encrypt(String key, String data)；  // encrypt data
+	 return Json format string, code: 0 is ok; other value is failure；
+
+ 11）SkfInterface.getSkfInstance().SKF_Encrypt(String key, String data)；  // encrypt data
 
      input encrypt key parameter "key"(128bit, or 16 bytes string), encrypt data;
   
      Callback function is onEncrypt(String result);
 
-	 return Json format string, ode: 0 is ok, data: "xxxxxxx" is the encrypt result；
+	 return Json format string, code: 0 is ok, data: "xxxxxxx" is the encrypt result；; other value is failure；
 
- 11）SkfInterface.getSkfInstance().SKF_DecryptInit(String key)；    // decrypt init
+ 12）SkfInterface.getSkfInstance().SKF_DecryptInit(String key)；    // decrypt init
 
      input encrypt key parameter "key"(128bit, or 16 bytes string);
 
      Callback function is onDecryptInit(String result);
 
- 12）SkfInterface.getSkfInstance().SKF_Decrypt(String key, String data)； // decrypt data
+	 return Json format string, code: 0 is ok; other value is failure；
+
+ 13）SkfInterface.getSkfInstance().SKF_Decrypt(String key, String data)； // decrypt data
 
      input decrypt key parameter "key"(128bit, or 16 bytes string), decrypt data;
   
      Callback function is onDecrypt(String result);
 
-	 return Json format string, ode: 0 is ok, data: "xxxxxxx" is the decrypt result；
+	 return Json format string, code: 0 is ok, data: "xxxxxxx" is the decrypt result; other value is failure；
 
- 13）SkfInterface.getSkfInstance().SKF_EncryptFile(String key, File inputFile, File outputFile)；// file encrypt data
+ 14）SkfInterface.getSkfInstance().SKF_EncryptFile(String key, File inputFile, File outputFile)；// file encrypt data
 
      input encrypt key parameter "key"(128bit, or 16 bytes string), encrypt input file, encrypt result file;
 
@@ -85,9 +112,9 @@ Next is the develop environment:
   
      Callback function is onEncryptFile(String result);
 
-	 return Json format string, ode: 0 is ok, outputFile is the encrypt result file；
+	 return Json format string, code: 0 is ok, outputFile is the encrypt result file；
 
- 14）SkfInterface.getSkfInstance().SKF_DecryptFile(String key, File inputFile, File outputFile)；// file decrypt data
+ 15）SkfInterface.getSkfInstance().SKF_DecryptFile(String key, File inputFile, File outputFile)；// file decrypt data
 
      input decrypt key parameter "key"(128bit, or 16 bytes string), decrypt input file, decrypt result file;
 
@@ -95,7 +122,7 @@ Next is the develop environment:
 
      Callback function is onDecryptFile(String result);
 
-	 return Json format string, ode: 0 is ok, outputFile is the decrypt result file；
+	 return Json format string, code: 0 is ok, outputFile is the decrypt result file；
 
   The String result is Json format, which will provide more information, such as:       
 

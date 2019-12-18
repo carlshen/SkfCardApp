@@ -10,7 +10,7 @@
 
 3 Android sdk 26;(ndk没有使用);
 
-4 目前SDK支持14个接口，使用异步回调的方式:
+4 目前SDK支持15个接口，使用异步回调的方式:
 
   在调用所有接口前，请先调用SkfInterface.getSkfInstance().SkfCallback()设置SkfCallback回调接口，否则将不会收到任何反馈；
 
@@ -49,14 +49,22 @@
      回调函数onSetSymmKey(String result);
 
 	 返回Json格式的字符串，code: 0表示成功，data: "xxxxxxx"返回密钥的句柄，用于后面具体的加密解密操作；
+	 
+  9）当前密钥的设置状态：SkfInterface.getSkfInstance().SKF_CheckSymmKey(String device)； 
 
-  9）加密初始化：SkfInterface.getSkfInstance().SKF_EncryptInit(String key)；
+     传入枚举设备获得的"device";
+
+     回调函数onCheckSymmKey(String result);
+
+	 返回Json格式的字符串，code: 0表示成功，已经设置密钥；其它值是失败，没有设置密钥；
+
+ 10）加密初始化：SkfInterface.getSkfInstance().SKF_EncryptInit(String key)；
 
      传入密钥的句柄"key"；
 
      回调函数onEncryptInit(String result);
 
- 10）单组数据加密：SkfInterface.getSkfInstance().SKF_Encrypt(String key, String data)；
+ 11）单组数据加密：SkfInterface.getSkfInstance().SKF_Encrypt(String key, String data)；
 
      传入密钥的句柄"key"；要加密的数据data；
   
@@ -64,13 +72,13 @@
 
 	 返回Json格式的字符串，code: 0表示成功，data: "xxxxxxx"表示返回加密数据的结果；
 
- 11）解密初始化：SkfInterface.getSkfInstance().SKF_DecryptInit(String key)；
+ 12）解密初始化：SkfInterface.getSkfInstance().SKF_DecryptInit(String key)；
 
      传入密钥的句柄"key"；
 
      回调函数onDecryptInit(String result);
 
- 12）单组数据解密：SkfInterface.getSkfInstance().SKF_Decrypt(String key, String data)；
+ 13）单组数据解密：SkfInterface.getSkfInstance().SKF_Decrypt(String key, String data)；
 
      传入密钥的句柄"key"；要解密的数据data；要解密的数据长度len；
   
@@ -78,7 +86,7 @@
 
 	 返回Json格式的字符串，code: 0表示成功，data: "xxxxxxx"表示返回解密数据的结果；
 
- 13）文件流数据加密：SkfInterface.getSkfInstance().SKF_EncryptFile(String key, File inputFile, File outputFile)；
+ 14）文件流数据加密：SkfInterface.getSkfInstance().SKF_EncryptFile(String key, File inputFile, File outputFile)；
 
      传入密钥的句柄"key"；要加密的文件inputFile；加密后的文件outputFile；
 
@@ -88,7 +96,7 @@
 
 	 返回Json格式的字符串，code: 0表示成功，outputFile表示返回加密数据的结果；
 
- 14）文件流数据解密：SkfInterface.getSkfInstance().SKF_DecryptFile(String key, File inputFile, File outputFile)；
+ 15）文件流数据解密：SkfInterface.getSkfInstance().SKF_DecryptFile(String key, File inputFile, File outputFile)；
 
      传入密钥的句柄"key"；要解密的文件inputFile；解密后的文件outputFile；
 

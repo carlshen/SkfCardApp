@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private Button mOpenApp = null;
     private Button mCreateCon = null;
     private Button mSetSymKey = null;
+    private Button mCheckSymKey = null;
     private Button mEncrInit = null;
     private Button mEncrypt = null;
     private Button mDecrInit = null;
@@ -135,6 +136,14 @@ public class MainActivity extends AppCompatActivity {
                 }
                 Log.i(TAG, "====== mSetSymKey = " + symKey);
                 boolean result = SkfInterface.getSkfInstance().SKF_SetSymmKey(deviceName, symKey, 1025);
+//                tvResult.setText("DisconnectDev: " + result);
+            }
+        });
+        mCheckSymKey = (Button) findViewById(R.id.btn_checkkey);
+        mCheckSymKey.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean result = SkfInterface.getSkfInstance().SKF_CheckSymmKey(deviceName);
 //                tvResult.setText("DisconnectDev: " + result);
             }
         });
@@ -358,6 +367,24 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 tvResult.setText("KeyData: " + KeyData);
+            }
+
+            @Override
+            public void onCheckSymmKey(String result) {
+                try {
+                    JSONObject json = new JSONObject(result);
+                    if (json != null) {
+                        int code = json.optInt("code");
+                        String tip = json.optString("tips");
+                        deviceData = json.optString("data");
+                        Log.i(TAG, "onCheckSymmKey code = " + code);
+                        Log.i(TAG, "onCheckSymmKey tip = " + tip);
+                        Log.i(TAG, "onCheckSymmKey Data = " + deviceData);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                tvResult.setText("CheckSymmKey: " + deviceData);
             }
 
             @Override
