@@ -10,7 +10,7 @@
 
 3 Android sdk 26;(ndk没有使用);
 
-4 目前SDK支持15个接口，使用异步回调的方式:
+4 目前SDK支持20个接口，使用异步回调的方式:
 
   在调用所有接口前，请先调用SkfInterface.getSkfInstance().SkfCallback()设置SkfCallback回调接口，否则将不会收到任何反馈；
 
@@ -106,6 +106,46 @@
 
 	 返回Json格式的字符串，code: 0表示成功，outputFile表示返回解密数据的结果；
 
+ 16）密码杂凑初始化，支持SM3：SkfInterface.getSkfInstance().SKF_DigestInit(String device)；
+
+     传入枚举设备获得的"device";
+
+     回调函数onDigestInit(String result);
+
+	 返回Json格式的字符串，code: 0表示成功；
+
+ 17）单组数据密码杂凑，支持SM3：SkfInterface.getSkfInstance().SKF_Digest(String data)；
+
+     传入枚举设备获得的"device"，需要摘要的数据;
+
+     回调函数onDigest(String result);
+
+	 返回Json格式的字符串，code: 0表示成功，data："xxxx"中是数据摘要的结果；
+
+ 18）生成ECC密钥对，支持SM2：SkfInterface.getSkfInstance().SKF_GenECCKeyPair(String device)；
+
+     传入枚举设备获得的"device";
+
+     回调函数onGenECCKeyPair(String result);
+
+	 返回Json格式的字符串，code: 0表示成功，data："xxxx"中是64字节公钥值；
+
+ 19）ECC签名，支持SM2：SkfInterface.getSkfInstance().SKF_ECCSignData(String key, String data)；
+
+     传入上面获得的公钥值，需要签名的数据;
+
+     回调函数onECCSignData(String result);
+
+	 返回Json格式的字符串，code: 0表示成功，data："xxxx"中是数据的64字节签名值；
+
+ 20）ECC验签，支持SM2：SkfInterface.getSkfInstance().SKF_ECCVerify(String key, String sign, String data)；
+
+     传入上面获得的公钥值，签名值，需要验证签名的数据;
+
+     回调函数onECCVerify(String result);
+
+	 返回Json格式的字符串，code: 0表示验证签名成功，其它表示验证签名失败；
+
 
   返回的结果String result是Json格式的，这样能提供更详细的信息，具体格式如下：  
 
@@ -133,7 +173,7 @@
 	通过SkfInterface.getSkfInstance().setDebugFlag(true/false)可以控制是否打印SDK的日志，用于调试。
 
 
-5 本sdk是CardEmulation-1.1.0.aar文件，请在项目里建立libs目录，把文件CardEmulation-1.1.0.aar放在libs目录下面;
+5 本sdk是CardEmulation-1.2.0.aar文件，请在项目里建立libs目录，把文件CardEmulation-1.2.0.aar放在libs目录下面;
 
   并且在编译文件build.gradle中加入下面的脚本：  
 
@@ -149,7 +189,7 @@ repositories {
 
 dependencies {
 
-    compile (name:'CardEmulation-1.1.0', ext:'aar')
+    compile (name:'CardEmulation-1.2.0', ext:'aar')
 	
 }
 

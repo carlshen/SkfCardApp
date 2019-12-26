@@ -10,7 +10,7 @@ Next is the develop environment:
 
 3 Android sdk 26;(ndk not used);
 
-4 Current SDK supportted 15 interfaces, which use asynchronous callback:
+4 Current SDK supportted 20 interfaces, which use asynchronous callback:
   
   Please use SkfInterface.getSkfInstance().SKF_SetCallback() to set the SkfCallback before you call any function, otherwise you can't get any feedback;  
 
@@ -124,6 +124,47 @@ Next is the develop environment:
 
 	 return Json format string, code: 0 is ok, outputFile is the decrypt result file；
 
+ 16）SkfInterface.getSkfInstance().SKF_DigestInit(String device)；  // digest init
+
+     input device parameter "device";
+
+     Callback function is onDigestInit(String result);
+
+	 return Json format string, code: 0 is ok.
+
+ 17）SkfInterface.getSkfInstance().SKF_Digest(String data);
+
+     input device parameter "device", the digest data;
+
+     Callback function is onDigest(String result);
+
+	 return Json format string, code: 0 is ok; data："xxxx" is the digest result.
+
+ 18）SkfInterface.getSkfInstance().SKF_GenECCKeyPair(String device);
+
+     input device parameter "device";
+
+     Callback function is onGenECCKeyPair(String result);
+
+	 return Json format string, code: 0 is ok; data："xxxx" is the 64 byte public Key.
+
+ 19）SkfInterface.getSkfInstance().SKF_ECCSignData(String key, String data);
+
+     input key parameter "key" from 18), and the signature data;
+
+     Callback function is onECCSignData(String result);
+
+	 return Json format string, code: 0 is ok; data："xxxx" is the signature data result.
+
+ 20）SkfInterface.getSkfInstance().SKF_ECCVerify(String key, String sign, String data);
+
+     input parameter Key, signature from above, and the verify data;
+
+     Callback function is onECCVerify(String result);
+
+	 return Json format string, code: 0 is verify ok, other value is verify fail.
+
+
   The String result is Json format, which will provide more information, such as:       
 
       {code: 0, tips: "ok"; data: "xxxxxxx" }
@@ -151,7 +192,7 @@ Next is the develop environment:
 	SkfInterface.getSkfInstance().setDebugFlag(true/false) can set SDK log flag, which is usefule for debug.
 
 
-5 Sdk is CardEmulation-1.1.0.aar file, please create libs directory in project, and place the CardEmulation-1.1.0.aar library in the libs directory;
+5 Sdk is CardEmulation-1.2.0.aar file, please create libs directory in project, and place the CardEmulation-1.2.0.aar library in the libs directory;
 
   Add next in project build.gradle file: 
   
@@ -167,7 +208,7 @@ repositories {
 
 dependencies {
 
-    compile (name:'CardEmulation-1.1.0', ext:'aar')
+    compile (name:'CardEmulation-1.2.0', ext:'aar')
 
 }
 

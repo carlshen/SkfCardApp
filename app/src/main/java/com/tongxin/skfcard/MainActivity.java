@@ -46,6 +46,13 @@ public class MainActivity extends AppCompatActivity {
     private Button mDecrypt = null;
     private Button mEncryptFile = null;
     private Button mDecryptFile = null;
+    private Button mDigestInit = null;
+    private Button mDigest = null;
+    private Button mECCKey = null;
+    private Button mECCSign = null;
+    private Button mECCVerify = null;
+    private String mECCData = null;
+    private String ECCKeyPair = null;
     private TextView tvResult = null;
     private String deviceName = null;
     private String deviceData = null;
@@ -160,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 StringBuilder encbuilder = new StringBuilder(2048);
-                for (int i = 0; i < 88; i++) {
+                for (int i = 0; i < 28; i++) {
                     encbuilder.append("1122334455667788990011223344556677889900");
                 }
                 EncrpytData = encbuilder.toString();
@@ -195,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
                         File ouFile = new File(EncryptUtil.getExternalAppFilesPath(getApplicationContext()) + "/enresult.txt");
                         try {
                             boolean result = SkfInterface.getSkfInstance().SKF_EncryptFile(KeyData, inFile, ouFile);
-                            Log.i(TAG, "SKF_EncryptFile result = " + result);
+                            tvResult.setText("EncryptFile: " + result);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -215,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
                         File ouFile = new File(EncryptUtil.getExternalAppFilesPath(getApplicationContext()) + "/deresult.txt");
                         try {
                             boolean result = SkfInterface.getSkfInstance().SKF_DecryptFile(KeyData, inFile, ouFile);
-                            Log.i(TAG, "SKF_DecryptFile result = " + result);
+                            tvResult.setText("DecryptFile: " + result);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -223,10 +230,65 @@ public class MainActivity extends AppCompatActivity {
                 }).start();
             }
         });
+        mDigestInit = (Button) findViewById(R.id.btn_digestinit);
+        mDigestInit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean result = SkfInterface.getSkfInstance().SKF_DigestInit(deviceName);
+//                tvResult.setText("DisconnectDev: " + result);
+            }
+        });
+        mDigest = (Button) findViewById(R.id.btn_digest);
+        mDigest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                StringBuilder encbuilder = new StringBuilder(2048);
+                for (int i = 0; i < 28; i++) {
+                    encbuilder.append("1122334455667788990011223344556677889900");
+                }
+                EncrpytData = encbuilder.toString();
+                boolean result = SkfInterface.getSkfInstance().SKF_Digest(EncrpytData);
+//                tvResult.setText("DisconnectDev: " + result);
+            }
+        });
+        mECCKey = (Button) findViewById(R.id.btn_ecckey);
+        mECCKey.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean result = SkfInterface.getSkfInstance().SKF_GenECCKeyPair(deviceName);
+//                tvResult.setText("DisconnectDev: " + result);
+            }
+        });
+        mECCSign = (Button) findViewById(R.id.btn_eccsign);
+        mECCSign.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                StringBuilder encbuilder = new StringBuilder(1024);
+                for (int i = 0; i < 28; i++) {
+                    encbuilder.append("1122334455667788990011223344556677889900");
+                }
+                EncrpytData = encbuilder.toString();
+                boolean result = SkfInterface.getSkfInstance().SKF_ECCSignData(ECCKeyPair, EncrpytData);
+//                tvResult.setText("DisconnectDev: " + result);
+            }
+        });
+        mECCVerify = (Button) findViewById(R.id.btn_eccverify);
+        mECCVerify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                StringBuilder encbuilder = new StringBuilder(1024);
+                for (int i = 0; i < 28; i++) {
+                    encbuilder.append("1122334455667788990011223344556677889900");
+                }
+                EncrpytData = encbuilder.toString();
+                boolean result = SkfInterface.getSkfInstance().SKF_ECCVerify(ECCKeyPair, mECCData, EncrpytData);
+//                tvResult.setText("DisconnectDev: " + result);
+            }
+        });
         Callback = new SkfCallback() {
             @Override
             public void onEnumDev(String result) {
-                deviceName = result;
+                Log.i(TAG, "onEnumDev result = " + result);
                 try {
                     JSONObject json = new JSONObject(result);
                     if (json != null) {
@@ -402,7 +464,7 @@ public class MainActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                tvResult.setText("onEncryptInit: " + deviceData);
+                tvResult.setText("Device: " + deviceData);
             }
 
             @Override
@@ -456,7 +518,7 @@ public class MainActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                tvResult.setText("onDecryptInit data: " + deviceData);
+                tvResult.setText("Device: " + deviceData);
             }
 
             @Override
@@ -493,6 +555,96 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 tvResult.setText("onDecryptFile data: " + deviceData);
+            }
+
+            @Override
+            public void onDigestInit(String result) {
+                try {
+                    JSONObject json = new JSONObject(result);
+                    if (json != null) {
+                        int code = json.optInt("code");
+                        String tip = json.optString("tips");
+                        deviceData = json.optString("data");
+                        Log.i(TAG, "onDigestInit code = " + code);
+                        Log.i(TAG, "onDigestInit tip = " + tip);
+                        Log.i(TAG, "onDigestInit data = " + deviceData);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                tvResult.setText("onDigestInit data: " + deviceData);
+            }
+
+            @Override
+            public void onDigest(String result) {
+                try {
+                    JSONObject json = new JSONObject(result);
+                    if (json != null) {
+                        int code = json.optInt("code");
+                        String tip = json.optString("tips");
+                        deviceData = json.optString("data");
+                        Log.i(TAG, "onDigest code = " + code);
+                        Log.i(TAG, "onDigest tip = " + tip);
+                        Log.i(TAG, "onDigest data = " + deviceData);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                tvResult.setText("onDigest data: " + deviceData);
+            }
+
+            @Override
+            public void onGenECCKeyPair(String result) {
+                try {
+                    JSONObject json = new JSONObject(result);
+                    if (json != null) {
+                        int code = json.optInt("code");
+                        String tip = json.optString("tips");
+                        ECCKeyPair = json.optString("data");
+                        Log.i(TAG, "onGenECCKeyPair code = " + code);
+                        Log.i(TAG, "onGenECCKeyPair tip = " + tip);
+                        Log.i(TAG, "onGenECCKeyPair data = " + ECCKeyPair);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                tvResult.setText("onGenECCKeyPair data: " + ECCKeyPair);
+            }
+
+            @Override
+            public void onECCSignData(String result) {
+                try {
+                    JSONObject json = new JSONObject(result);
+                    if (json != null) {
+                        int code = json.optInt("code");
+                        String tip = json.optString("tips");
+                        mECCData = json.optString("data");
+                        Log.i(TAG, "onECCSignData code = " + code);
+                        Log.i(TAG, "onECCSignData tip = " + tip);
+                        Log.i(TAG, "onECCSignData data = " + mECCData);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                tvResult.setText("onECCSignData data: " + mECCData);
+            }
+
+            @Override
+            public void onECCVerify(String result) {
+                try {
+                    JSONObject json = new JSONObject(result);
+                    if (json != null) {
+                        int code = json.optInt("code");
+                        String tip = json.optString("tips");
+                        deviceData = json.optString("data");
+                        Log.i(TAG, "onECCVerify code = " + code);
+                        Log.i(TAG, "onECCVerify tip = " + tip);
+                        Log.i(TAG, "onECCVerify data = " + deviceData);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                tvResult.setText("onECCVerify data: " + deviceData);
             }
         };
         SkfInterface.getSkfInstance().SKF_SetCallback(Callback);

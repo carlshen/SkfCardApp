@@ -97,12 +97,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
         <Button
-            android:id="@+id/btn_checkkey"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="CheckKey" />
-        <Button
             android:id="@+id/btn_encrfile"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -114,6 +108,47 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="decryptFile" />
+        <Button
+            android:id="@+id/btn_digestinit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="DigestInit" />
+        <Button
+            android:id="@+id/btn_digest"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Digest" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+        <Button
+            android:id="@+id/btn_checkkey"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="CheckKey" />
+        <Button
+            android:id="@+id/btn_ecckey"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="ECCKey" />
+        <Button
+            android:id="@+id/btn_eccsign"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="ECCSign" />
+        <Button
+            android:id="@+id/btn_eccverify"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="ECCVerify" />
     </LinearLayout>
     <TextView
         android:id="@+id/tv_result"
