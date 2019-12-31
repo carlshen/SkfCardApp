@@ -10,7 +10,7 @@
 
 3 Android sdk 26;(ndk没有使用);
 
-4 目前SDK支持20个接口，使用异步回调的方式:
+4 目前SDK支持21个接口，使用异步回调的方式:
 
   在调用所有接口前，请先调用SkfInterface.getSkfInstance().SkfCallback()设置SkfCallback回调接口，否则将不会收到任何反馈；
 
@@ -50,7 +50,15 @@
 
 	 返回Json格式的字符串，code: 0表示成功，data: "xxxxxxx"返回密钥的句柄，用于后面具体的加密解密操作；
 	 
-  9）当前密钥的设置状态：SkfInterface.getSkfInstance().SKF_CheckSymmKey(String device)； 
+  9）查询会话密钥：SkfInterface.getSkfInstance().SKF_GetSymmKey(String device, int AlgID)； 
+
+     传入枚举设备获得的"device"；算法AlgID(1025表示ECB算法，1026表示CBC算法，其它暂时不支持);
+
+     回调函数onGetSymmKey(String result);
+
+	 返回Json格式的字符串，code: 0表示成功，data: "xxxxxxx"返回密钥的句柄，用于后面具体的加密解密操作；
+
+  10）当前密钥的设置状态：SkfInterface.getSkfInstance().SKF_CheckSymmKey(String device)； 
 
      传入枚举设备获得的"device";
 
@@ -58,13 +66,13 @@
 
 	 返回Json格式的字符串，code: 0表示成功，已经设置密钥；其它值是失败，没有设置密钥；
 
- 10）加密初始化：SkfInterface.getSkfInstance().SKF_EncryptInit(String key)；
+ 11）加密初始化：SkfInterface.getSkfInstance().SKF_EncryptInit(String key)；
 
      传入密钥的句柄"key"；
 
      回调函数onEncryptInit(String result);
 
- 11）单组数据加密：SkfInterface.getSkfInstance().SKF_Encrypt(String key, String data)；
+ 12）单组数据加密：SkfInterface.getSkfInstance().SKF_Encrypt(String key, String data)；
 
      传入密钥的句柄"key"；要加密的数据data；
   
@@ -72,13 +80,13 @@
 
 	 返回Json格式的字符串，code: 0表示成功，data: "xxxxxxx"表示返回加密数据的结果；
 
- 12）解密初始化：SkfInterface.getSkfInstance().SKF_DecryptInit(String key)；
+ 13）解密初始化：SkfInterface.getSkfInstance().SKF_DecryptInit(String key)；
 
      传入密钥的句柄"key"；
 
      回调函数onDecryptInit(String result);
 
- 13）单组数据解密：SkfInterface.getSkfInstance().SKF_Decrypt(String key, String data)；
+ 14）单组数据解密：SkfInterface.getSkfInstance().SKF_Decrypt(String key, String data)；
 
      传入密钥的句柄"key"；要解密的数据data；要解密的数据长度len；
   
@@ -86,7 +94,7 @@
 
 	 返回Json格式的字符串，code: 0表示成功，data: "xxxxxxx"表示返回解密数据的结果；
 
- 14）文件流数据加密：SkfInterface.getSkfInstance().SKF_EncryptFile(String key, File inputFile, File outputFile)；
+ 15）文件流数据加密：SkfInterface.getSkfInstance().SKF_EncryptFile(String key, File inputFile, File outputFile)；
 
      传入密钥的句柄"key"；要加密的文件inputFile；加密后的文件outputFile；
 
@@ -96,7 +104,7 @@
 
 	 返回Json格式的字符串，code: 0表示成功，outputFile表示返回加密数据的结果；
 
- 15）文件流数据解密：SkfInterface.getSkfInstance().SKF_DecryptFile(String key, File inputFile, File outputFile)；
+ 16）文件流数据解密：SkfInterface.getSkfInstance().SKF_DecryptFile(String key, File inputFile, File outputFile)；
 
      传入密钥的句柄"key"；要解密的文件inputFile；解密后的文件outputFile；
 
@@ -106,7 +114,7 @@
 
 	 返回Json格式的字符串，code: 0表示成功，outputFile表示返回解密数据的结果；
 
- 16）密码杂凑初始化，支持SM3：SkfInterface.getSkfInstance().SKF_DigestInit(String device)；
+ 17）密码杂凑初始化，支持SM3：SkfInterface.getSkfInstance().SKF_DigestInit(String device)；
 
      传入枚举设备获得的"device";
 
@@ -114,7 +122,7 @@
 
 	 返回Json格式的字符串，code: 0表示成功；
 
- 17）单组数据密码杂凑，支持SM3：SkfInterface.getSkfInstance().SKF_Digest(String data)；
+ 18）单组数据密码杂凑，支持SM3：SkfInterface.getSkfInstance().SKF_Digest(String data)；
 
      传入枚举设备获得的"device"，需要摘要的数据;
 
@@ -122,7 +130,7 @@
 
 	 返回Json格式的字符串，code: 0表示成功，data："xxxx"中是数据摘要的结果；
 
- 18）生成ECC密钥对，支持SM2：SkfInterface.getSkfInstance().SKF_GenECCKeyPair(String device)；
+ 19）生成ECC密钥对，支持SM2：SkfInterface.getSkfInstance().SKF_GenECCKeyPair(String device)；
 
      传入枚举设备获得的"device";
 
@@ -130,7 +138,7 @@
 
 	 返回Json格式的字符串，code: 0表示成功，data："xxxx"中是64字节公钥值；
 
- 19）ECC签名，支持SM2：SkfInterface.getSkfInstance().SKF_ECCSignData(String key, String data)；
+ 20）ECC签名，支持SM2：SkfInterface.getSkfInstance().SKF_ECCSignData(String key, String data)；
 
      传入上面获得的公钥值，需要签名的数据;
 
@@ -138,7 +146,7 @@
 
 	 返回Json格式的字符串，code: 0表示成功，data："xxxx"中是数据的64字节签名值；
 
- 20）ECC验签，支持SM2：SkfInterface.getSkfInstance().SKF_ECCVerify(String key, String sign, String data)；
+ 21）ECC验签，支持SM2：SkfInterface.getSkfInstance().SKF_ECCVerify(String key, String sign, String data)；
 
      传入上面获得的公钥值，签名值，需要验证签名的数据;
 

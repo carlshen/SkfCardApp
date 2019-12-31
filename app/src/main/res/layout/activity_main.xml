@@ -1,9 +1,9 @@
 <LinearLayout
-      xmlns:android="http://schemas.android.com/apk/res/android"
-      android:orientation="vertical"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:id="@+id/sample_main_layout">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/sample_main_layout">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -126,12 +126,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
         <Button
-            android:id="@+id/btn_checkkey"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="CheckKey" />
-        <Button
             android:id="@+id/btn_ecckey"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -150,6 +144,24 @@
             android:layout_weight="1"
             android:text="ECCVerify" />
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+        <Button
+            android:id="@+id/btn_checkkey"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="CheckKey" />
+        <Button
+            android:id="@+id/btn_getkey"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="GetKey" />
+    </LinearLayout>
+
     <TextView
         android:id="@+id/tv_result"
         android:layout_width="match_parent"
@@ -160,15 +172,15 @@
         android:text=""/>
 
     <View
-          android:layout_width="match_parent"
-          android:layout_height="1dp"
-          android:background="@android:color/darker_gray" />
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray" />
 
     <FrameLayout
-          android:id="@+id/sample_content_fragment"
-          android:layout_weight="2"
-          android:layout_width="match_parent"
-          android:layout_height="0px" />
+        android:id="@+id/sample_content_fragment"
+        android:layout_weight="2"
+        android:layout_width="match_parent"
+        android:layout_height="0px" />
 
 </LinearLayout>
 

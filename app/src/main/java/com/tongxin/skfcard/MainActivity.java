@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private Button mCreateCon = null;
     private Button mSetSymKey = null;
     private Button mCheckSymKey = null;
+    private Button mGetSymKey = null;
     private Button mEncrInit = null;
     private Button mEncrypt = null;
     private Button mDecrInit = null;
@@ -151,6 +152,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 boolean result = SkfInterface.getSkfInstance().SKF_CheckSymmKey(deviceName);
+//                tvResult.setText("DisconnectDev: " + result);
+            }
+        });
+        mGetSymKey = (Button) findViewById(R.id.btn_getkey);
+        mGetSymKey.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean result = SkfInterface.getSkfInstance().SKF_GetSymmKey(deviceName, 1025);
 //                tvResult.setText("DisconnectDev: " + result);
             }
         });
@@ -447,6 +456,24 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 tvResult.setText("CheckSymmKey: " + deviceData);
+            }
+
+            @Override
+            public void onGetSymmKey(String result) {
+                try {
+                    JSONObject json = new JSONObject(result);
+                    if (json != null) {
+                        int code = json.optInt("code");
+                        String tip = json.optString("tips");
+                        KeyData = json.optString("data");
+                        Log.i(TAG, "onGetSymmKey code = " + code);
+                        Log.i(TAG, "onGetSymmKey tip = " + tip);
+                        Log.i(TAG, "onGetSymmKey KeyData = " + KeyData);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                tvResult.setText("KeyData: " + KeyData);
             }
 
             @Override
